@@ -32,7 +32,7 @@ class GridClass:
                 pg.draw.rect(screen, BLACK, rect, 1)
             self.nodes.append(horizontal_node)
 
-     # Update node
+     # Update nodes
     def drawNodes(self,screen,x_pos, y_pos,nodeType):
         # Reduces the coordinates to the array
         x , y = math.floor(x_pos / 20) * 20 , math.floor(y_pos / 20) * 20

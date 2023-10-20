@@ -3,6 +3,7 @@ import pygame as pg
 import sys
 from grid import GridClass
 from button import Button
+from buttonSwitch import ButtonSwitch
 from const import  *
 
 # Class to keep game running and calling correct classes
@@ -11,7 +12,7 @@ class GameClass:
     def __init__(self):
         self.pg_init()
         self.gameOn = True
-        self.gridObject = GridClass()
+        self.gridObject = GridClass(self.screen)
     
     # Initialises pygame
     def pg_init(self):
@@ -23,12 +24,12 @@ class GameClass:
     def createWindow(self):
         self.screen.fill(WHITE)
         self.gridObject.resetGame()
-        self.gridObject.drawGrid(pg,self.screen,WINDOW_WIDTH,abs(MENU_HEIGHT-WINDOW_HEIGHT))
+        self.gridObject.drawGrid(pg,WINDOW_WIDTH,abs(MENU_HEIGHT-WINDOW_HEIGHT))
         self.createButtons()
 
     # Creates buttons
     def createButtons(self):
-        self.pathTypeButton = Button(BUTTON_LENGTH * 0, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Type: BFS")
+        self.pathTypeButton = ButtonSwitch(BUTTON_LENGTH * 0, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Type: BFS")
         self.pathTypeButton.draw(self.screen)
 
         self.startButton = Button(BUTTON_LENGTH * 1, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Start Search!")
@@ -65,19 +66,21 @@ class GameClass:
 
                 # Checks if any buttons has been pressed
                 if self.pathTypeButton.clicked(x,y):
-                    self.pathTypeButton.text = "Type: DFS"
-                    self.pathTypeButton.draw(self.screen)
+                    self.pathTypeButton.switch(self.screen)
 
+                if self.startButton.clicked(x,y):
+                    self.gridObject.startFind(self.gridObject)
+            
                 if self.resetButton.clicked(x,y):
                     self.createWindow()
 
                 # Draws player
                 if event.button == RIGHT and y < DRAW_AREA:
-                    self.gridObject.drawNodes(self.screen, x,y,PLAYER)
+                    self.gridObject.drawNodes(x,y,PLAYER)
                 
                 # Draws target
                 if event.button == MIDDLE and y < DRAW_AREA:
-                    self.gridObject.drawNodes(self.screen, x,y,TARGET)
+                    self.gridObject.drawNodes(x,y,TARGET)
 
             if event.type == pg.MOUSEBUTTONUP:
                 # Removes drag click walls
@@ -88,7 +91,7 @@ class GameClass:
 
                 if self.gridObject.drawMode and y < DRAW_AREA:
                     # Draws nodes onto the grid
-                    self.gridObject.drawNodes(self.screen,x,y,WALLS)
+                    self.gridObject.drawNodes(x,y,WALLS)
 
     # Starts main loop of system
     def start(self):

@@ -67,6 +67,7 @@ class GameClass:
                 # Checks if any buttons has been pressed
                 if self.pathTypeButton.clicked(x,y):
                     self.pathTypeButton.switch(self.screen)
+                    self.gridObject.switch()
 
                 if self.startButton.clicked(x,y):
                     self.gridObject.startFind(self.gridObject)

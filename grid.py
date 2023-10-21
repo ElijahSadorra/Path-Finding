@@ -18,7 +18,7 @@ class GridClass:
 
     # Resets to default valuess
     def resetGame(self):
-        self.pathFind.nodes = []
+        self.pathFind.reset()
         self.playerDrawn = False
         self.playerCoords = []
         self.targetDrawn = False
@@ -48,6 +48,11 @@ class GridClass:
             self.drawBorder(x,y)
             rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
             pg.draw.rect(self.screen, YELLOW, rect)
+
+        if nodeType == BACKTRACK and self.pathFind.nodes[x_arr][y_arr][0] != WALLS:
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
+            pg.draw.rect(self.screen, PINK, rect)
 
         if nodeType == VISITED and self.pathFind.nodes[x_arr][y_arr][0] != PLAYER:
             self.drawBorder(x,y)
@@ -89,4 +94,8 @@ class GridClass:
 
     # Starts path-find algo
     def startFind(self,gridOb):
-        self.pathFind.startSearch(gridOb,self.playerCoords,self.targetCoords)
+        self.pathFind.startFind(gridOb,self.playerCoords,self.targetCoords)
+
+    # Switches path-find type
+    def switch(self):
+        self.pathFind.switch()

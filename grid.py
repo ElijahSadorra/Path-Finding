@@ -31,7 +31,7 @@ class GridClass:
             horizontal_node = []
             for y in range(0, height, self.blockSize):
                 rect = pg.Rect(x, y, self.blockSize, self.blockSize)
-                horizontal_node.append(0)
+                horizontal_node.append([0,0])
                 pg.draw.rect(self.screen, BLACK, rect, 1)
             self.pathFind.nodes.append(horizontal_node)
 
@@ -44,30 +44,48 @@ class GridClass:
         x_arr, y_arr = x // 20, y // 20
 
         # Draws corresponding nodes
-        if nodeType == WALLS and self.pathFind.nodes[x_arr][y_arr] == EMPTY:
-            rect = pg.Rect(x, y, self.blockSize, self.blockSize)
+        if nodeType == PATH and self.pathFind.nodes[x_arr][y_arr][0] != PLAYER:
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
+            pg.draw.rect(self.screen, YELLOW, rect)
+
+        if nodeType == VISITED and self.pathFind.nodes[x_arr][y_arr][0] != PLAYER:
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
+            pg.draw.rect(self.screen, LIGHT_BLUE, rect)
+
+        if nodeType == WALLS and self.pathFind.nodes[x_arr][y_arr][0] == EMPTY:
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
             pg.draw.rect(self.screen, RED, rect)
 
         elif nodeType == QUEUE: 
-            rect = pg.Rect(x, y, self.blockSize, self.blockSize)
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
             pg.draw.rect(self.screen, PURPLE, rect)
 
         elif nodeType == PLAYER and self.playerDrawn == False:
-            rect = pg.Rect(x, y, self.blockSize, self.blockSize)
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
             pg.draw.rect(self.screen, BLUE, rect)
             self.playerDrawn = True
             self.playerCoords = [x_arr,y_arr]
 
         elif nodeType == TARGET and self.targetDrawn == False:
-            rect = pg.Rect(x, y, self.blockSize, self.blockSize)
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
             pg.draw.rect(self.screen, GREEN, rect)
             self.targetDrawn = True
             self.targetCoords = [x_arr,y_arr]
 
         # Updates the node values
-        self.pathFind.nodes[x_arr][y_arr] = nodeType
+        self.pathFind.nodes[x_arr][y_arr][0] = nodeType
         pg.display.flip()
         
+    # Draws borders around the nodes
+    def drawBorder(self,x,y):
+        border = pg.Rect(x, y, self.blockSize, self.blockSize)
+        pg.draw.rect(self.screen, BLACK,border)
 
     # Starts path-find algo
     def startFind(self,gridOb):

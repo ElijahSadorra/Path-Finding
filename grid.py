@@ -83,6 +83,11 @@ class GridClass:
             self.targetDrawn = True
             self.targetCoords = [x_arr,y_arr]
 
+        elif nodeType == EMPTY:
+            self.drawBorder(x,y)
+            rect = pg.Rect(x+2, y+2, self.blockSize-2, self.blockSize-2)
+            pg.draw.rect(self.screen, WHITE, rect)
+
         # Updates the node values
         self.pathFind.nodes[x_arr][y_arr][0] = nodeType
         pg.display.flip()

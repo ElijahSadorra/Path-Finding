@@ -4,7 +4,7 @@ from button import Button
 class ButtonSwitch(Button):
     def __init__(self, x, y, width, height, text, color=(255, 255, 255), text_color=(0, 0, 0)):
         super().__init__(x, y, width, height, text, color, text_color)
-        self.options = ["BFS","DFS","WALK","A*"]
+        self.options = ["BFS","DFS","WALK","MAZE"]
     
     def switch(self,screen):
         # Queue system

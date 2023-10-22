@@ -32,7 +32,7 @@ class GameClass:
         self.pathTypeButton = ButtonSwitch(BUTTON_LENGTH * 0, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Type: BFS")
         self.pathTypeButton.draw(self.screen)
 
-        self.startButton = Button(BUTTON_LENGTH * 1, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Start Search!")
+        self.startButton = Button(BUTTON_LENGTH * 1, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Start!")
         self.startButton.draw(self.screen)
 
         self.resetButton = Button(BUTTON_LENGTH * 2, BUTTON_POS_X, BUTTON_LENGTH, BUTTON_HEIGHT, "Reset!")

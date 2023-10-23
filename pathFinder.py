@@ -143,7 +143,7 @@ class PathFinder:
 
     # Creates a maze map
     def createMaze(self,gridOb, playerCoords,targetCoords):
-        if playerCoords == [] or targetCoords == []:
+        if playerCoords != [] or targetCoords != []:
             return
         
         # Create all walls
@@ -153,11 +153,39 @@ class PathFinder:
                 self.nodes[x][y][0] = WALLS
 
         # Create spaces
+        spaces = []
         for x in range(1,len(self.nodes)-1,2):
             for y in range(1,len(self.nodes[x])-1,2):
                 gridOb.drawNodes(x*20, y*20,EMPTY)
                 self.nodes[x][y][0] = EMPTY
+                spaces.append((x,y))
 
+        coords = spaces[random.randint(0,len(spaces)-1)]
+        stack = [coords]
+        visitedNodes = set()
 
+        while len(visitedNodes) != len(spaces):
+            x, y = stack[-1]
+            visitedNodes.add((x,y))
+           
+            # Gets neighbour coordinates
+            neighbour_offset = [(-2,0),(2,0),(0,-2),(0,2)]
+            neighbours = [(x + offset[0], y + offset[1]) for offset in neighbour_offset]
 
+            # Gets valid neighbours
+            valid_neighbour = []
+            for neighbour in neighbours:
+                if neighbour not in visitedNodes and \
+                    0 <= neighbour[0] <= (len(self.nodes)-1) and \
+                        0 <= neighbour[1] <= (len(self.nodes[0])-1):
+                    valid_neighbour.append(neighbour)
 
+            # Shuffles for randomness
+            random.shuffle(valid_neighbour)
+
+            if len(valid_neighbour) == 0:
+                stack.pop()
+            else:
+                stack.append(valid_neighbour[0])
+                pair_x, pair_y = (valid_neighbour[0][0] + x)//2, (valid_neighbour[0][1] + y)//2
+                gridOb.drawNodes(pair_x*20, pair_y*20,EMPTY)

@@ -8,4 +8,3 @@ if __name__ == "__main__":
     
     # Starts game object loop
     gameObject.start()
-    
